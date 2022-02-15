@@ -25,4 +25,8 @@ public class Shop {
         this.commissionRate = commissionRate;
         this.commission = commission;
     }
+
+    public boolean isValidOrderAmount(int totalPrice) {
+        return minOrderAmount <= totalPrice;
+    }
 }

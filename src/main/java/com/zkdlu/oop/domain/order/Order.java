@@ -30,5 +30,16 @@ public class Order {
         if (!shop.isOpen()) {
             throw new IllegalStateException("가게가 영업중이 아닙니다.");
         }
+
+        if (!shop.isValidOrderAmount(calculateTotalPrice())) {
+            throw new IllegalStateException(
+                    String.format("최소 주문 금액 %s원 이상을 넘겨주세요.", shop.getMinOrderAmount()));
+        }
+    }
+
+    private int calculateTotalPrice() {
+        return orderLineItems.stream()
+                .mapToInt(OrderLineItem::calculateTotalPrice)
+                .sum();
     }
 }

@@ -1,9 +1,14 @@
 package com.zkdlu.oop;
 
+import antlr.build.ANTLR;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.Order.OrderBuilder;
 import com.zkdlu.oop.domain.order.OrderLineItem;
 import com.zkdlu.oop.domain.order.OrderLineItem.OrderLineItemBuilder;
+import com.zkdlu.oop.domain.order.OrderOption;
+import com.zkdlu.oop.domain.order.OrderOption.OrderOptionBuilder;
+import com.zkdlu.oop.domain.order.OrderOptionGroup;
+import com.zkdlu.oop.domain.order.OrderOptionGroup.OrderOptionGroupBuilder;
 import com.zkdlu.oop.domain.shop.Menu;
 import com.zkdlu.oop.domain.shop.Menu.MenuBuilder;
 import com.zkdlu.oop.domain.shop.Shop;
@@ -28,11 +33,34 @@ public class Fixtures {
                 .shop(aShop().build());
     }
 
+    public static OrderOptionBuilder anOrderOption() {
+        return OrderOption.builder()
+                .name("기본 구성")
+                .price(10000);
+
+    }
+
+    public static OrderOptionGroupBuilder anOrderOptionGroup() {
+        return OrderOptionGroup.builder()
+                .name("기본")
+                .orderOptions(List.of(anOrderOption().build()));
+    }
+
+
     public static OrderLineItemBuilder anOrderLineItem() {
         return OrderLineItem.builder()
                 .name("고기")
                 .count(1)
-                .menu(aMenu().build());
+                .menu(aMenu().build())
+                .orderOptionGroups(List.of(
+                        anOrderOptionGroup()
+                                .name("기본")
+                                .orderOptions(List.of(anOrderOption().name("기본 구성").price(10000).build()))
+                                .build(),
+                        anOrderOptionGroup()
+                                .name("맛 선택")
+                                .orderOptions(List.of(anOrderOption().name("매운 맛").price(1000). build()))
+                                .build()));
     }
 
     public static OrderBuilder anOrder() {
