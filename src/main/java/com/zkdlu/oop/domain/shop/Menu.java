@@ -27,7 +27,7 @@ public class Menu {
         this.optionGroups.addAll(optionGroups);
     }
 
-    public void validateOrder(String name, List<OrderOptionGroup> orderOptionGroups) {
+    public void validateOrderItem(String name, List<OrderOptionGroup> orderOptionGroups) {
         if (!this.name.equals(name)) {
             throw new IllegalStateException("주문중에 메뉴정보가 변경되었습니다.");
         }
@@ -37,6 +37,6 @@ public class Menu {
 
     private void validateOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
         optionGroups.stream().forEach(optionGroup ->
-                optionGroup.validateOption(orderOptionGroups));
+                optionGroup.validateOptionGroup(orderOptionGroups));
     }
 }

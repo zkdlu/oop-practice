@@ -25,10 +25,16 @@ public class OptionGroup {
         this.options.addAll(options);
     }
 
-    public void validateOption(List<OrderOptionGroup> orderOptionGroups) {
+    public void validateOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
         if (!isValidOptionGroup(orderOptionGroups)) {
             throw new IllegalStateException("주문중에 옵션그룹정보가 변경되었습니다.");
         }
+
+        orderOptionGroups.stream().forEach(orderOptionGroup -> {
+            options.forEach(option -> {
+                option.validateOption(orderOptionGroup);
+            });
+        });
     }
 
     private boolean isValidOptionGroup(List<OrderOptionGroup> orderOptionGroups) {

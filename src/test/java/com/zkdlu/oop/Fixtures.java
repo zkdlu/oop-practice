@@ -55,7 +55,7 @@ public class Fixtures {
     public static OrderOptionBuilder anOrderOption() {
         return OrderOption.builder()
                 .name("기본 구성")
-                .price(10000);
+                .price(13000);
 
     }
 

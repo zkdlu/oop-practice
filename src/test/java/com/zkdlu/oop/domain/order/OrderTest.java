@@ -73,13 +73,13 @@ class OrderTest {
                 .orderOptionGroups(
                         List.of(anOrderOptionGroup()
                                 .orderOptions(
-                                        List.of(anOrderOption().price(13000).build())
+                                        List.of(anOrderOption().build())
                                 ).build()
                         )
                 ).build();
 
         Order order = anOrder()
-                .shop(aShop().minOrderAmount(10000).build())
+                .shop(aShop().build())
                 .orderLineItems(List.of(orderLineItem))
                 .build();
 
@@ -97,13 +97,13 @@ class OrderTest {
                         List.of(anOrderOptionGroup()
                                 .name("기본 옵션 그룹")
                                 .orderOptions(
-                                        List.of(anOrderOption().price(13000).build())
+                                        List.of(anOrderOption().build())
                                 ).build()
                         )
                 ).build();
 
         Order order = anOrder()
-                .shop(aShop().minOrderAmount(10000).build())
+                .shop(aShop().build())
                 .orderLineItems(List.of(orderLineItem))
                 .build();
 
@@ -112,5 +112,28 @@ class OrderTest {
         });
 
         assertThat(exception.getMessage()).isEqualTo("주문중에 옵션그룹정보가 변경되었습니다.");
+    }
+
+    @Test
+    void 주문시_옵션의_정보가_변경되면_안된다() {
+        OrderLineItem orderLineItem = anOrderLineItem()
+                .orderOptionGroups(
+                        List.of(anOrderOptionGroup()
+                                .orderOptions(
+                                        List.of(anOrderOption().name("변경된 옵션").build())
+                                ).build()
+                        )
+                ).build();
+
+        Order order = anOrder()
+                .shop(aShop().build())
+                .orderLineItems(List.of(orderLineItem))
+                .build();
+
+        var exception = Assertions.assertThrows(IllegalStateException.class, () -> {
+            order.place();
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("주문중에 옵션정보가 변경되었습니다.");
     }
 }

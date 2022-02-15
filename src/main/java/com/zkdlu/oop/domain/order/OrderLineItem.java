@@ -29,6 +29,6 @@ public class OrderLineItem {
     }
 
     public void validate() {
-        menu.validateOrder(name, orderOptionGroups);
+        menu.validateOrderItem(name, orderOptionGroups);
     }
 }
