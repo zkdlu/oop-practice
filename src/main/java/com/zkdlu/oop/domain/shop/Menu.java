@@ -1,5 +1,6 @@
 package com.zkdlu.oop.domain.shop;
 
+import com.zkdlu.oop.domain.order.OrderOptionGroup;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -26,9 +27,16 @@ public class Menu {
         this.optionGroups.addAll(optionGroups);
     }
 
-    public void validateOrder(String name) {
+    public void validateOrder(String name, List<OrderOptionGroup> orderOptionGroups) {
         if (!this.name.equals(name)) {
             throw new IllegalStateException("주문중에 메뉴정보가 변경되었습니다.");
         }
+
+        validateOptionGroup(orderOptionGroups);
+    }
+
+    private void validateOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
+        optionGroups.stream().forEach(optionGroup ->
+                optionGroup.validateOption(orderOptionGroups));
     }
 }

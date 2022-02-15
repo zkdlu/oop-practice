@@ -1,7 +1,5 @@
 package com.zkdlu.oop.domain.order;
 
-import com.zkdlu.oop.domain.shop.Menu;
-import com.zkdlu.oop.domain.shop.Shop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -74,7 +72,6 @@ class OrderTest {
                 .menu(aMenu().name("기본 메뉴").build())
                 .orderOptionGroups(
                         List.of(anOrderOptionGroup()
-                                .name("기본")
                                 .orderOptions(
                                         List.of(anOrderOption().price(13000).build())
                                 ).build()
@@ -91,5 +88,29 @@ class OrderTest {
         });
 
         assertThat(exception.getMessage()).isEqualTo("주문중에 메뉴정보가 변경되었습니다.");
+    }
+
+    @Test
+    void 주문시_옵션그룹의_이름이_변경되면_안된다() {
+        OrderLineItem orderLineItem = anOrderLineItem()
+                .orderOptionGroups(
+                        List.of(anOrderOptionGroup()
+                                .name("기본 옵션 그룹")
+                                .orderOptions(
+                                        List.of(anOrderOption().price(13000).build())
+                                ).build()
+                        )
+                ).build();
+
+        Order order = anOrder()
+                .shop(aShop().minOrderAmount(10000).build())
+                .orderLineItems(List.of(orderLineItem))
+                .build();
+
+        var exception = Assertions.assertThrows(IllegalStateException.class, () -> {
+            order.place();
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("주문중에 옵션그룹정보가 변경되었습니다.");
     }
 }

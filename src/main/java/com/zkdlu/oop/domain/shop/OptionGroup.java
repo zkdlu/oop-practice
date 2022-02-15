@@ -1,5 +1,6 @@
 package com.zkdlu.oop.domain.shop;
 
+import com.zkdlu.oop.domain.order.OrderOptionGroup;
 import lombok.Builder;
 
 import java.util.ArrayList;
@@ -22,5 +23,15 @@ public class OptionGroup {
         this.basic = basic;
 
         this.options.addAll(options);
+    }
+
+    public void validateOption(List<OrderOptionGroup> orderOptionGroups) {
+        if (!isValidOptionGroup(orderOptionGroups)) {
+            throw new IllegalStateException("주문중에 옵션그룹정보가 변경되었습니다.");
+        }
+    }
+
+    private boolean isValidOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
+        return orderOptionGroups.stream().anyMatch(orderOptionGroup -> this.name.equals(orderOptionGroup.getName()));
     }
 }
