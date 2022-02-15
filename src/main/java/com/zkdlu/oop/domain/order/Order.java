@@ -35,6 +35,10 @@ public class Order {
             throw new IllegalStateException(
                     String.format("최소 주문 금액 %s원 이상을 넘겨주세요.", shop.getMinOrderAmount()));
         }
+
+        for (var orderLineItem : this.orderLineItems) {
+            orderLineItem.validate();
+        }
     }
 
     private int calculateTotalPrice() {

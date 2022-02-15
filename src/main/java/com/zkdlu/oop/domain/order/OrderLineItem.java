@@ -27,4 +27,8 @@ public class OrderLineItem {
                 .mapToInt(OrderOptionGroup::calculatePrice)
                 .sum() * count;
     }
+
+    public void validate() {
+        menu.validateOrder(name);
+    }
 }

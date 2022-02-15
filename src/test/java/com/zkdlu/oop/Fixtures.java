@@ -11,6 +11,10 @@ import com.zkdlu.oop.domain.order.OrderOptionGroup;
 import com.zkdlu.oop.domain.order.OrderOptionGroup.OrderOptionGroupBuilder;
 import com.zkdlu.oop.domain.shop.Menu;
 import com.zkdlu.oop.domain.shop.Menu.MenuBuilder;
+import com.zkdlu.oop.domain.shop.Option;
+import com.zkdlu.oop.domain.shop.Option.OptionBuilder;
+import com.zkdlu.oop.domain.shop.OptionGroup;
+import com.zkdlu.oop.domain.shop.OptionGroup.OptionGroupBuilder;
 import com.zkdlu.oop.domain.shop.Shop;
 import com.zkdlu.oop.domain.shop.Shop.ShopBuilder;
 
@@ -26,11 +30,26 @@ public class Fixtures {
                 .commission(0);
     }
 
+    public static OptionBuilder anOption() {
+        return Option.builder()
+                .name("기본 구성")
+                .price(10000);
+    }
+
+    public static OptionGroupBuilder anOptionGroup() {
+        return OptionGroup.builder()
+                .basic(true)
+                .exclusive(true)
+                .name("기본")
+                .options(List.of(anOption().build()));
+    }
+
     public static MenuBuilder aMenu() {
         return Menu.builder()
                 .name("고기")
                 .description("맛있는 고기")
-                .shop(aShop().build());
+                .shop(aShop().build())
+                .optionGroups(List.of(anOptionGroup().build()));
     }
 
     public static OrderOptionBuilder anOrderOption() {
