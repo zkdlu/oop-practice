@@ -1,10 +1,13 @@
 package com.zkdlu.oop.domain.order;
 
+import com.zkdlu.oop.domain.shop.IOption;
+import com.zkdlu.oop.domain.shop.IOptionGroup;
 import com.zkdlu.oop.domain.shop.Menu;
 import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderLineItem {
     private Long id;
@@ -29,6 +32,22 @@ public class OrderLineItem {
     }
 
     public void validate() {
-        menu.validateOrderItem(name, orderOptionGroups);
+        menu.validateOrderItem(name, convertToOptionGroups());
+    }
+
+    private List<IOptionGroup> convertToOptionGroups() {
+        return orderOptionGroups.stream().map(this::mapToOptionGroup).collect(Collectors.toList());
+    }
+
+    private IOptionGroup mapToOptionGroup(OrderOptionGroup orderOptionGroup) {
+        return new IOptionGroup(
+                orderOptionGroup.getName(),
+                orderOptionGroup.getOrderOptions().stream()
+                        .map(this::mapToOption)
+                        .collect(Collectors.toList()));
+    }
+
+    private IOption mapToOption(OrderOption orderOption) {
+        return new IOption(orderOption.getName(), orderOption.getPrice());
     }
 }

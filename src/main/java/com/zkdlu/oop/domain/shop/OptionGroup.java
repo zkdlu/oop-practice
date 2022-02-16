@@ -1,7 +1,5 @@
 package com.zkdlu.oop.domain.shop;
 
-import com.zkdlu.oop.domain.order.OrderOption;
-import com.zkdlu.oop.domain.order.OrderOptionGroup;
 import lombok.Builder;
 
 import java.util.ArrayList;
@@ -27,12 +25,12 @@ public class OptionGroup {
         this.options.addAll(options);
     }
 
-    public boolean isSatisfiedBy(OrderOptionGroup orderOptionGroup) {
+    public boolean isSatisfiedBy(IOptionGroup orderOptionGroup) {
         if (!this.name.equals(orderOptionGroup.getName())) {
             return false;
         }
 
-        List<OrderOption> satisfied = satisfied(orderOptionGroup.getOrderOptions());
+        List<IOption> satisfied = satisfied(orderOptionGroup.getOrderOptions());
         if (satisfied.isEmpty()) {
             return false;
         }
@@ -44,11 +42,11 @@ public class OptionGroup {
         return true;
     }
 
-    private List<OrderOption> satisfied(List<OrderOption> orderOptions) {
+    private List<IOption> satisfied(List<IOption> orderOptions) {
         return orderOptions.stream().filter(this::isSatisfiedBy).collect(Collectors.toList());
     }
 
-    private boolean isSatisfiedBy(OrderOption orderOption) {
+    private boolean isSatisfiedBy(IOption orderOption) {
         return options.stream().anyMatch(option -> option.isSatisfiedBy(orderOption));
     }
 }

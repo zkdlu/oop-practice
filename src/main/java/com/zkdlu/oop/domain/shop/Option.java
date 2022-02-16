@@ -1,6 +1,5 @@
 package com.zkdlu.oop.domain.shop;
 
-import com.zkdlu.oop.domain.order.OrderOption;
 import lombok.Builder;
 
 public class Option {
@@ -15,11 +14,11 @@ public class Option {
         this.price = price;
     }
 
-    private boolean isMatched(OrderOption orderOption) {
+    private boolean isMatched(IOption orderOption) {
         return this.name.equals(orderOption.getName()) && this.price == orderOption.getPrice();
     }
 
-    public boolean isSatisfiedBy(OrderOption orderOption) {
+    public boolean isSatisfiedBy(IOption orderOption) {
         return isMatched(orderOption);
     }
 }
