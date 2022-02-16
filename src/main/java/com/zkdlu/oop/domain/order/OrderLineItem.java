@@ -1,6 +1,5 @@
 package com.zkdlu.oop.domain.order;
 
-import com.zkdlu.oop.domain.shop.IOption;
 import com.zkdlu.oop.domain.shop.IOptionGroup;
 import com.zkdlu.oop.domain.shop.Menu;
 import lombok.Builder;
@@ -36,18 +35,6 @@ public class OrderLineItem {
     }
 
     private List<IOptionGroup> convertToOptionGroups() {
-        return orderOptionGroups.stream().map(this::mapToOptionGroup).collect(Collectors.toList());
-    }
-
-    private IOptionGroup mapToOptionGroup(OrderOptionGroup orderOptionGroup) {
-        return new IOptionGroup(
-                orderOptionGroup.getName(),
-                orderOptionGroup.getOrderOptions().stream()
-                        .map(this::mapToOption)
-                        .collect(Collectors.toList()));
-    }
-
-    private IOption mapToOption(OrderOption orderOption) {
-        return new IOption(orderOption.getName(), orderOption.getPrice());
+        return orderOptionGroups.stream().map(OrderOptionGroup::convertToOptionGroup).collect(Collectors.toList());
     }
 }
