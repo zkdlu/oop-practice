@@ -1,5 +1,7 @@
 package com.zkdlu.oop.domain.order;
 
+import com.zkdlu.oop.domain.shop.Menu;
+import com.zkdlu.oop.domain.shop.OptionGroup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +10,8 @@ import java.util.List;
 
 import static com.zkdlu.oop.Fixtures.aMenu;
 import static com.zkdlu.oop.Fixtures.aShop;
+import static com.zkdlu.oop.Fixtures.anOption;
+import static com.zkdlu.oop.Fixtures.anOptionGroup;
 import static com.zkdlu.oop.Fixtures.anOrder;
 import static com.zkdlu.oop.Fixtures.anOrderLineItem;
 import static com.zkdlu.oop.Fixtures.anOrderOption;
@@ -128,6 +132,36 @@ class OrderTest {
         Order order = anOrder()
                 .shop(aShop().minOrderAmount(10000).build())
                 .orderLineItems(List.of(orderLineItem))
+                .build();
+
+        var exception = Assertions.assertThrows(IllegalStateException.class, () -> {
+            order.place();
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("메뉴가 변경됐습니다.");
+    }
+
+    @Test
+    void 주문시_단일옵션은_하나만_선택되어야_한다() {
+        OptionGroup optionGroup = anOptionGroup()
+                .exclusive(true)
+                .options(List.of(
+                        anOption().name("옵션1").build(),
+                        anOption().name("옵션2").build()))
+                .build();
+        Menu menu = aMenu().optionGroups(List.of(optionGroup)).build();
+
+        OrderLineItem orderLineItem = anOrderLineItem()
+                .menu(menu)
+                .orderOptionGroups(List.of(
+                        anOrderOptionGroup()
+                                .orderOptions(List.of(
+                                        anOrderOption().name("옵션1").build(),
+                                        anOrderOption().name("옵션2").build()
+                                )).build()))
+                .build();
+
+        Order order = anOrder().orderLineItems(List.of(orderLineItem))
                 .build();
 
         var exception = Assertions.assertThrows(IllegalStateException.class, () -> {

@@ -6,6 +6,7 @@ import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OptionGroup {
     private Long id;
@@ -31,11 +32,20 @@ public class OptionGroup {
             return false;
         }
 
-        return isSatisfiedBy(orderOptionGroup.getOrderOptions());
+        List<OrderOption> satisfied = satisfied(orderOptionGroup.getOrderOptions());
+        if (satisfied.isEmpty()) {
+            return false;
+        }
+
+        if (exclusive && satisfied.size() > 1) {
+            return false;
+        }
+
+        return true;
     }
 
-    private boolean isSatisfiedBy(List<OrderOption> orderOptions) {
-        return orderOptions.stream().anyMatch(this::isSatisfiedBy);
+    private List<OrderOption> satisfied(List<OrderOption> orderOptions) {
+        return orderOptions.stream().filter(this::isSatisfiedBy).collect(Collectors.toList());
     }
 
     private boolean isSatisfiedBy(OrderOption orderOption) {
