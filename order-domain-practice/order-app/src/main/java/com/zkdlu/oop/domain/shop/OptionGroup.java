@@ -1,11 +1,13 @@
 package com.zkdlu.oop.domain.shop;
 
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class OptionGroup {
     private Long id;
     private String name;

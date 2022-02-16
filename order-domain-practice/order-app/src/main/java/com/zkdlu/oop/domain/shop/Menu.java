@@ -24,6 +24,14 @@ public class Menu {
 
         this.shop.getMenus().add(this);
         this.optionGroups.addAll(optionGroups);
+
+        validate();
+    }
+
+    private void validate() {
+        if (optionGroups.stream().filter(OptionGroup::isBasic).count() > 1) {
+            throw new IllegalStateException("기본옵션그룹은 한개만 존재하여야 합니다.");
+        }
     }
 
     public void validateOrderItem(String name, List<IOptionGroup> orderOptionGroups) {
