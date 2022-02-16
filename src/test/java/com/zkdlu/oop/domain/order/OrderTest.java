@@ -79,7 +79,7 @@ class OrderTest {
                 ).build();
 
         Order order = anOrder()
-                .shop(aShop().build())
+                .shop(aShop().minOrderAmount(10000).build())
                 .orderLineItems(List.of(orderLineItem))
                 .build();
 
@@ -87,7 +87,7 @@ class OrderTest {
             order.place();
         });
 
-        assertThat(exception.getMessage()).isEqualTo("주문중에 메뉴정보가 변경되었습니다.");
+        assertThat(exception.getMessage()).isEqualTo("기본상품이 변경되었습니다.");
     }
 
     @Test
@@ -103,7 +103,7 @@ class OrderTest {
                 ).build();
 
         Order order = anOrder()
-                .shop(aShop().build())
+                .shop(aShop().minOrderAmount(10000).build())
                 .orderLineItems(List.of(orderLineItem))
                 .build();
 
@@ -111,7 +111,7 @@ class OrderTest {
             order.place();
         });
 
-        assertThat(exception.getMessage()).isEqualTo("주문중에 옵션그룹정보가 변경되었습니다.");
+        assertThat(exception.getMessage()).isEqualTo("메뉴가 변경됐습니다.");
     }
 
     @Test
@@ -126,7 +126,7 @@ class OrderTest {
                 ).build();
 
         Order order = anOrder()
-                .shop(aShop().build())
+                .shop(aShop().minOrderAmount(10000).build())
                 .orderLineItems(List.of(orderLineItem))
                 .build();
 
@@ -134,6 +134,15 @@ class OrderTest {
             order.place();
         });
 
-        assertThat(exception.getMessage()).isEqualTo("주문중에 옵션정보가 변경되었습니다.");
+        assertThat(exception.getMessage()).isEqualTo("메뉴가 변경됐습니다.");
+    }
+
+    @Test
+    void 주문성공시_주문상태를_주문완료상태로_변경한다() {
+        Order order = anOrder().build();
+
+        order.place();
+
+        assertThat(order.getState()).isEqualTo(OrderState.ORDERED);
     }
 }

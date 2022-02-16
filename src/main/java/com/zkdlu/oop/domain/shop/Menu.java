@@ -29,14 +29,19 @@ public class Menu {
 
     public void validateOrderItem(String name, List<OrderOptionGroup> orderOptionGroups) {
         if (!this.name.equals(name)) {
-            throw new IllegalStateException("주문중에 메뉴정보가 변경되었습니다.");
+            throw new IllegalStateException("기본상품이 변경되었습니다.");
         }
 
-        validateOptionGroup(orderOptionGroups);
+        if (!isSatisfiedBy(orderOptionGroups)) {
+            throw new IllegalStateException("메뉴가 변경됐습니다.");
+        }
     }
 
-    private void validateOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
-        optionGroups.stream().forEach(optionGroup ->
-                optionGroup.validateOptionGroup(orderOptionGroups));
+    private boolean isSatisfiedBy(List<OrderOptionGroup> orderOptionGroups) {
+        return orderOptionGroups.stream().anyMatch(this::isSatisfiedBy);
+    }
+
+    private boolean isSatisfiedBy(OrderOptionGroup orderOptionGroup) {
+        return optionGroups.stream().anyMatch(optionGroup -> optionGroup.isSatisfiedBy(orderOptionGroup));
     }
 }

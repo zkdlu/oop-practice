@@ -1,6 +1,5 @@
 package com.zkdlu.oop;
 
-import antlr.build.ANTLR;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.Order.OrderBuilder;
 import com.zkdlu.oop.domain.order.OrderLineItem;
@@ -21,18 +20,21 @@ import com.zkdlu.oop.domain.shop.Shop.ShopBuilder;
 import java.util.List;
 
 public class Fixtures {
-    public static ShopBuilder aShop() {
-        return Shop.builder()
-                .name("고깃집")
-                .commissionRate(0.1)
-                .open(true)
-                .minOrderAmount(13000)
-                .commission(0);
-    }
+    /*
+    가게
+        고깃집
+    메뉴
+        고기
+    기본 옵션그룹
+        기본 옵션 10000원
+    추가 옵션그룹
+        추가 옵션1 1000원
+        추가 옵션2 2000원
+     */
 
     public static OptionBuilder anOption() {
         return Option.builder()
-                .name("기본 구성")
+                .name("기본 옵션")
                 .price(10000);
     }
 
@@ -40,7 +42,7 @@ public class Fixtures {
         return OptionGroup.builder()
                 .basic(true)
                 .exclusive(true)
-                .name("기본")
+                .name("기본 옵션그룹")
                 .options(List.of(anOption().build()));
     }
 
@@ -49,19 +51,36 @@ public class Fixtures {
                 .name("고기")
                 .description("맛있는 고기")
                 .shop(aShop().build())
-                .optionGroups(List.of(anOptionGroup().build()));
+                .optionGroups(List.of(
+                        anOptionGroup().build(),
+                        anOptionGroup()
+                                .name("추가 옵션그룹")
+                                .options(List.of(
+                                        anOption().name("추가 옵션1").price(1000).build(),
+                                        anOption().name("추가 옵션2").price(2000).build()
+                                ))
+                                .build()));
+    }
+
+    public static ShopBuilder aShop() {
+        return Shop.builder()
+                .name("고깃집")
+                .commissionRate(0.1)
+                .open(true)
+                .minOrderAmount(11000)
+                .commission(0);
     }
 
     public static OrderOptionBuilder anOrderOption() {
         return OrderOption.builder()
-                .name("기본 구성")
-                .price(13000);
+                .name("기본 옵션")
+                .price(10000);
 
     }
 
     public static OrderOptionGroupBuilder anOrderOptionGroup() {
         return OrderOptionGroup.builder()
-                .name("기본")
+                .name("기본 옵션그룹")
                 .orderOptions(List.of(anOrderOption().build()));
     }
 
@@ -72,13 +91,12 @@ public class Fixtures {
                 .count(1)
                 .menu(aMenu().build())
                 .orderOptionGroups(List.of(
+                        anOrderOptionGroup().build(),
                         anOrderOptionGroup()
-                                .name("기본")
-                                .orderOptions(List.of(anOrderOption().name("기본 구성").price(10000).build()))
-                                .build(),
-                        anOrderOptionGroup()
-                                .name("맛 선택")
-                                .orderOptions(List.of(anOrderOption().name("매운 맛").price(1000). build()))
+                                .name("추가 옵션그룹")
+                                .orderOptions(List.of(
+                                        anOrderOption().name("추가 옵션1").price(1000).build(),
+                                        anOrderOption().name("추가 옵션2").price(2000).build()))
                                 .build()));
     }
 

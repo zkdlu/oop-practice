@@ -1,5 +1,6 @@
 package com.zkdlu.oop.domain.shop;
 
+import com.zkdlu.oop.domain.order.OrderOption;
 import com.zkdlu.oop.domain.order.OrderOptionGroup;
 import lombok.Builder;
 
@@ -25,19 +26,19 @@ public class OptionGroup {
         this.options.addAll(options);
     }
 
-    public void validateOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
-        if (!isValidOptionGroup(orderOptionGroups)) {
-            throw new IllegalStateException("주문중에 옵션그룹정보가 변경되었습니다.");
+    public boolean isSatisfiedBy(OrderOptionGroup orderOptionGroup) {
+        if (!this.name.equals(orderOptionGroup.getName())) {
+            return false;
         }
 
-        orderOptionGroups.stream().forEach(orderOptionGroup -> {
-            options.forEach(option -> {
-                option.validateOption(orderOptionGroup);
-            });
-        });
+        return isSatisfiedBy(orderOptionGroup.getOrderOptions());
     }
 
-    private boolean isValidOptionGroup(List<OrderOptionGroup> orderOptionGroups) {
-        return orderOptionGroups.stream().anyMatch(orderOptionGroup -> this.name.equals(orderOptionGroup.getName()));
+    private boolean isSatisfiedBy(List<OrderOption> orderOptions) {
+        return orderOptions.stream().anyMatch(this::isSatisfiedBy);
+    }
+
+    private boolean isSatisfiedBy(OrderOption orderOption) {
+        return options.stream().anyMatch(option -> option.isSatisfiedBy(orderOption));
     }
 }

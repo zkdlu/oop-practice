@@ -2,24 +2,33 @@ package com.zkdlu.oop.domain.order;
 
 import com.zkdlu.oop.domain.shop.Shop;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Order {
     private Long id;
     private Shop shop;
     private List<OrderLineItem> orderLineItems = new ArrayList<>();
+    private OrderState state;
 
     @Builder
-    public Order(Long id, Shop shop, List<OrderLineItem> orderLineItems) {
+    public Order(Long id, Shop shop, List<OrderLineItem> orderLineItems, OrderState state) {
         this.id = id;
         this.shop = shop;
         this.orderLineItems.addAll(orderLineItems);
+        this.state = state;
     }
 
     public void place() {
         validate();
+        ordered();
+    }
+
+    private void ordered() {
+        this.state = OrderState.ORDERED;
     }
 
     private void validate() {
