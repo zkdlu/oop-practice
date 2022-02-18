@@ -1,23 +1,23 @@
 package com.zkdlu.oop;
 
-import com.zkdlu.oop.domain.delivery.Delivery;
-import com.zkdlu.oop.domain.delivery.Delivery.DeliveryBuilder;
-import com.zkdlu.oop.domain.order.Order;
-import com.zkdlu.oop.domain.order.Order.OrderBuilder;
-import com.zkdlu.oop.domain.order.OrderLineItem;
-import com.zkdlu.oop.domain.order.OrderLineItem.OrderLineItemBuilder;
-import com.zkdlu.oop.domain.order.OrderOption;
-import com.zkdlu.oop.domain.order.OrderOption.OrderOptionBuilder;
-import com.zkdlu.oop.domain.order.OrderOptionGroup;
-import com.zkdlu.oop.domain.order.OrderOptionGroup.OrderOptionGroupBuilder;
-import com.zkdlu.oop.domain.shop.Menu;
-import com.zkdlu.oop.domain.shop.Menu.MenuBuilder;
-import com.zkdlu.oop.domain.shop.Option;
-import com.zkdlu.oop.domain.shop.Option.OptionBuilder;
-import com.zkdlu.oop.domain.shop.OptionGroup;
-import com.zkdlu.oop.domain.shop.OptionGroup.OptionGroupBuilder;
-import com.zkdlu.oop.domain.shop.Shop;
-import com.zkdlu.oop.domain.shop.Shop.ShopBuilder;
+import com.zkdlu.oop.delivery.Delivery;
+import com.zkdlu.oop.delivery.Delivery.DeliveryBuilder;
+import com.zkdlu.oop.order.domain.Order;
+import com.zkdlu.oop.order.domain.Order.OrderBuilder;
+import com.zkdlu.oop.order.domain.OrderLineItem;
+import com.zkdlu.oop.order.domain.OrderLineItem.OrderLineItemBuilder;
+import com.zkdlu.oop.order.domain.OrderOption;
+import com.zkdlu.oop.order.domain.OrderOption.OrderOptionBuilder;
+import com.zkdlu.oop.order.domain.OrderOptionGroup;
+import com.zkdlu.oop.order.domain.OrderOptionGroup.OrderOptionGroupBuilder;
+import com.zkdlu.oop.shop.domain.Menu;
+import com.zkdlu.oop.shop.domain.Menu.MenuBuilder;
+import com.zkdlu.oop.shop.domain.Option;
+import com.zkdlu.oop.shop.domain.Option.OptionBuilder;
+import com.zkdlu.oop.shop.domain.OptionGroup;
+import com.zkdlu.oop.shop.domain.OptionGroup.OptionGroupBuilder;
+import com.zkdlu.oop.shop.domain.Shop;
+import com.zkdlu.oop.shop.domain.Shop.ShopBuilder;
 
 import java.util.List;
 
