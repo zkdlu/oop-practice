@@ -104,7 +104,7 @@ public class Fixtures {
 
     public static OrderBuilder anOrder() {
         return Order.builder()
-                .shop(aShop().build())
+                .shop(aShop().build().getId())
                 .orderLineItems(List.of(anOrderLineItem().build()));
     }
 

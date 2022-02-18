@@ -10,6 +10,7 @@ import com.zkdlu.oop.domain.delivery.Delivery;
 import com.zkdlu.oop.domain.delivery.Delivery.DeliveryState;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderState;
+import com.zkdlu.oop.domain.order.OrderValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +30,7 @@ class OrderServiceTest {
     private SpyShopRepository spyShopRepository;
     private SpyMenuRepository spyMenuRepository;
     private SpyDeliveryRepository spyDeliveryRepository;
+    private OrderValidator orderValidator;
 
     @BeforeEach
     void setUp() {
@@ -36,10 +38,11 @@ class OrderServiceTest {
         spyShopRepository = new SpyShopRepository();
         spyMenuRepository = new SpyMenuRepository();
         spyDeliveryRepository = new SpyDeliveryRepository();
+        orderValidator = new OrderValidator(spyShopRepository);
 
         OrderMapper orderMapper = new OrderMapper(spyShopRepository, spyMenuRepository);
 
-        orderService = new OrderService(orderMapper, spyOrderRepository, spyDeliveryRepository);
+        orderService = new OrderService(orderMapper, spyOrderRepository, spyDeliveryRepository, orderValidator);
 
         spyShopRepository.findById_returnValue = Optional.of(aShop().build());
         spyMenuRepository.findById_returnValue = Optional.of(aMenu().build());

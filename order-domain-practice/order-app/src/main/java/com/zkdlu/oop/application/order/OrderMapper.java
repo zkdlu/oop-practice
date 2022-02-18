@@ -26,7 +26,7 @@ public class OrderMapper {
                 .orElseThrow(IllegalArgumentException::new);
 
         return new Order(
-                shop,
+                shop.getId(),
                 cart.getCartLineItems()
                         .stream()
                         .map(this::toOrderLineItem)
