@@ -6,6 +6,7 @@ import com.zkdlu.oop.application.order.Cart.CartOption;
 import com.zkdlu.oop.application.order.Cart.CartOptionGroup;
 import com.zkdlu.oop.application.shop.SpyMenuRepository;
 import com.zkdlu.oop.application.shop.SpyShopRepository;
+import com.zkdlu.oop.domain.delivery.Delivery;
 import com.zkdlu.oop.domain.delivery.Delivery.DeliveryState;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderState;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static com.zkdlu.oop.Fixtures.aDelivery;
 import static com.zkdlu.oop.Fixtures.aMenu;
 import static com.zkdlu.oop.Fixtures.aShop;
 import static com.zkdlu.oop.Fixtures.anOrder;
@@ -73,5 +75,19 @@ class OrderServiceTest {
         orderService.payOrder(1L);
 
         assertThat(spyDeliveryRepository.save_argumentDelivery.getState()).isEqualTo(DeliveryState.DELIVERING);
+    }
+
+    @Test
+    void 주문이_완료되면_배송완료_처리된다() {
+        Order givenOrder = anOrder().build();
+        spyOrderRepository.findById_returnValue = Optional.of(givenOrder);
+
+        Delivery givenDelivery = aDelivery().build();
+        spyDeliveryRepository.findById_returnValue = Optional.of(givenDelivery);
+
+        orderService.completeOrder(1L);
+
+        assertThat(givenOrder.getState()).isEqualTo(OrderState.COMPLETE);
+        assertThat(givenDelivery.getState()).isEqualTo(DeliveryState.DELIVERED);
     }
 }

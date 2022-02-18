@@ -34,4 +34,13 @@ public class OrderService {
         Delivery delivery = Delivery.started(order);
         deliveryRepository.save(delivery);
     }
+
+    @Transactional
+    public void completeOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
+        order.complete();
+
+        Delivery delivery = deliveryRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);;
+        delivery.complete();
+    }
 }

@@ -1,5 +1,7 @@
 package com.zkdlu.oop;
 
+import com.zkdlu.oop.domain.delivery.Delivery;
+import com.zkdlu.oop.domain.delivery.Delivery.DeliveryBuilder;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.Order.OrderBuilder;
 import com.zkdlu.oop.domain.order.OrderLineItem;
@@ -104,5 +106,10 @@ public class Fixtures {
         return Order.builder()
                 .shop(aShop().build())
                 .orderLineItems(List.of(anOrderLineItem().build()));
+    }
+
+    public static DeliveryBuilder aDelivery() {
+        return Delivery.builder()
+                .order(anOrder().build());
     }
 }

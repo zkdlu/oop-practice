@@ -63,4 +63,8 @@ public class Order {
     public void payed() {
         this.state = OrderState.PAYED;
     }
+
+    public void complete() {
+        this.state = OrderState.COMPLETE;
+    }
 }
