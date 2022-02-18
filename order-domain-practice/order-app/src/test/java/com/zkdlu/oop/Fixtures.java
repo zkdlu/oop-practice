@@ -53,7 +53,7 @@ public class Fixtures {
                 .shop(aShop().build())
                 .optionGroups(List.of(
                         anOptionGroup().build(),
-                        anOptionGroup()
+                        anOptionGroup().basic(false)
                                 .name("추가 옵션그룹")
                                 .options(List.of(
                                         anOption().name("추가 옵션1").price(1000).build(),
