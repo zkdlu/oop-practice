@@ -1,5 +1,7 @@
 package com.zkdlu.oop.application.order;
 
+import com.zkdlu.oop.domain.delivery.Delivery;
+import com.zkdlu.oop.domain.delivery.DeliveryRepository;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -9,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
+    private final DeliveryRepository deliveryRepository;
 
-    public OrderService(OrderMapper orderMapper, OrderRepository orderRepository) {
+    public OrderService(OrderMapper orderMapper, OrderRepository orderRepository, DeliveryRepository deliveryRepository) {
         this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
+        this.deliveryRepository = deliveryRepository;
     }
 
     @Transactional
@@ -26,5 +30,8 @@ public class OrderService {
     public void payOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
         order.payed();
+
+        Delivery delivery = Delivery.started(order);
+        deliveryRepository.save(delivery);
     }
 }

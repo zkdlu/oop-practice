@@ -1,10 +1,12 @@
 package com.zkdlu.oop.application.order;
 
+import com.zkdlu.oop.application.delivery.SpyDeliveryRepository;
 import com.zkdlu.oop.application.order.Cart.CartLineItem;
 import com.zkdlu.oop.application.order.Cart.CartOption;
 import com.zkdlu.oop.application.order.Cart.CartOptionGroup;
 import com.zkdlu.oop.application.shop.SpyMenuRepository;
 import com.zkdlu.oop.application.shop.SpyShopRepository;
+import com.zkdlu.oop.domain.delivery.Delivery.DeliveryState;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderState;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,16 +26,18 @@ class OrderServiceTest {
     private SpyOrderRepository spyOrderRepository;
     private SpyShopRepository spyShopRepository;
     private SpyMenuRepository spyMenuRepository;
+    private SpyDeliveryRepository spyDeliveryRepository;
 
     @BeforeEach
     void setUp() {
         spyOrderRepository = new SpyOrderRepository();
         spyShopRepository = new SpyShopRepository();
         spyMenuRepository = new SpyMenuRepository();
+        spyDeliveryRepository = new SpyDeliveryRepository();
 
         OrderMapper orderMapper = new OrderMapper(spyShopRepository, spyMenuRepository);
 
-        orderService = new OrderService(orderMapper, spyOrderRepository);
+        orderService = new OrderService(orderMapper, spyOrderRepository, spyDeliveryRepository);
 
         spyShopRepository.findById_returnValue = Optional.of(aShop().build());
         spyMenuRepository.findById_returnValue = Optional.of(aMenu().build());
@@ -59,5 +63,15 @@ class OrderServiceTest {
         orderService.payOrder(1L);
 
         assertThat(givenOrder.getState()).isEqualTo(OrderState.PAYED);
+    }
+
+    @Test
+    void 결제시_배송을_시작한다() {
+        Order givenOrder = anOrder().build();
+        spyOrderRepository.findById_returnValue = Optional.of(givenOrder);
+
+        orderService.payOrder(1L);
+
+        assertThat(spyDeliveryRepository.save_argumentDelivery.getState()).isEqualTo(DeliveryState.DELIVERING);
     }
 }
