@@ -14,6 +14,7 @@ import com.zkdlu.oop.domain.order.OrderValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.zkdlu.oop.Fixtures.aDelivery;
@@ -38,7 +39,7 @@ class OrderServiceTest {
         spyShopRepository = new SpyShopRepository();
         spyMenuRepository = new SpyMenuRepository();
         spyDeliveryRepository = new SpyDeliveryRepository();
-        orderValidator = new OrderValidator(spyShopRepository, null);
+        orderValidator = new OrderValidator(spyShopRepository, spyMenuRepository);
 
         OrderMapper orderMapper = new OrderMapper(spyShopRepository, spyMenuRepository);
 
@@ -46,6 +47,7 @@ class OrderServiceTest {
 
         spyShopRepository.findById_returnValue = Optional.of(aShop().build());
         spyMenuRepository.findById_returnValue = Optional.of(aMenu().build());
+        spyMenuRepository.findAllById_returnValue = List.of(aMenu().build());
     }
 
     @Test
