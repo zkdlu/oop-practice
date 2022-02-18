@@ -1,5 +1,6 @@
 package com.zkdlu.oop.domain.order;
 
+import com.zkdlu.oop.application.shop.SpyMenuRepository;
 import com.zkdlu.oop.application.shop.SpyShopRepository;
 import com.zkdlu.oop.domain.shop.Menu;
 import com.zkdlu.oop.domain.shop.OptionGroup;
@@ -26,13 +27,17 @@ class OrderValidatorTest {
 
     private OrderValidator orderValidator;
     private SpyShopRepository spyShopRepository;
+    private SpyMenuRepository spyMenuRepository;
 
     @BeforeEach
     void setUp() {
         spyShopRepository = new SpyShopRepository();
         spyShopRepository.findById_returnValue = Optional.of(aShop().build());
 
-        orderValidator = new OrderValidator(spyShopRepository);
+        spyMenuRepository = new SpyMenuRepository();
+        spyMenuRepository.findAllById_returnValue = List.of(aMenu().build());
+
+        orderValidator = new OrderValidator(spyShopRepository, spyMenuRepository);
     }
 
     @Test
@@ -91,8 +96,10 @@ class OrderValidatorTest {
 
     @Test
     void 주문시_메뉴의_이름이_변경되면_안된다() {
+        Menu menu = aMenu().name("기본 메뉴").build();
+        spyMenuRepository.findAllById_returnValue = List.of(menu);
         OrderLineItem orderLineItem = anOrderLineItem()
-                .menu(aMenu().name("기본 메뉴").build())
+                .menu(menu.getId())
                 .orderOptionGroups(
                         List.of(anOrderOptionGroup()
                                 .orderOptions(
@@ -177,9 +184,10 @@ class OrderValidatorTest {
                         anOption().name("옵션2").build()))
                 .build();
         Menu menu = aMenu().optionGroups(List.of(optionGroup)).build();
+        spyMenuRepository.findAllById_returnValue = List.of(menu);
 
         OrderLineItem orderLineItem = anOrderLineItem()
-                .menu(menu)
+                .menu(menu.getId())
                 .orderOptionGroups(List.of(
                         anOrderOptionGroup()
                                 .orderOptions(List.of(

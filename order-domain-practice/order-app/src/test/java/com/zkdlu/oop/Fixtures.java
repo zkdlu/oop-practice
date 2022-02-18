@@ -91,7 +91,7 @@ public class Fixtures {
         return OrderLineItem.builder()
                 .name("고기")
                 .count(1)
-                .menu(aMenu().build())
+                .menu(aMenu().build().getId())
                 .orderOptionGroups(List.of(
                         anOrderOptionGroup().build(),
                         anOrderOptionGroup()

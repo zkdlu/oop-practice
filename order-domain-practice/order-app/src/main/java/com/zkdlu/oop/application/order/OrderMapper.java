@@ -41,7 +41,7 @@ public class OrderMapper {
         return new OrderLineItem(
                 cartLineItem.getName(),
                 cartLineItem.getCount(),
-                menu,
+                menu.getId(),
                 cartLineItem.getGroups()
                         .stream()
                         .map(this::toOrderOptionGroup)

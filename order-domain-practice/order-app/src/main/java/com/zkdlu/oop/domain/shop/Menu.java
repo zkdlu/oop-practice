@@ -33,22 +33,4 @@ public class Menu {
             throw new IllegalStateException("기본옵션그룹은 한개만 존재하여야 합니다.");
         }
     }
-
-    public void validateOrderItem(String name, List<IOptionGroup> orderOptionGroups) {
-        if (!this.name.equals(name)) {
-            throw new IllegalStateException("기본상품이 변경되었습니다.");
-        }
-
-        if (!isSatisfiedBy(orderOptionGroups)) {
-            throw new IllegalStateException("메뉴가 변경됐습니다.");
-        }
-    }
-
-    private boolean isSatisfiedBy(List<IOptionGroup> orderOptionGroups) {
-        return orderOptionGroups.stream().anyMatch(this::isSatisfiedBy);
-    }
-
-    private boolean isSatisfiedBy(IOptionGroup orderOptionGroup) {
-        return optionGroups.stream().anyMatch(optionGroup -> optionGroup.isSatisfiedBy(orderOptionGroup));
-    }
 }

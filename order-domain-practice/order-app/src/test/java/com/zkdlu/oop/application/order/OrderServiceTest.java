@@ -38,7 +38,7 @@ class OrderServiceTest {
         spyShopRepository = new SpyShopRepository();
         spyMenuRepository = new SpyMenuRepository();
         spyDeliveryRepository = new SpyDeliveryRepository();
-        orderValidator = new OrderValidator(spyShopRepository);
+        orderValidator = new OrderValidator(spyShopRepository, null);
 
         OrderMapper orderMapper = new OrderMapper(spyShopRepository, spyMenuRepository);
 
