@@ -11,6 +11,7 @@ import com.zkdlu.oop.domain.delivery.Delivery.DeliveryState;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderState;
 import com.zkdlu.oop.domain.order.OrderValidator;
+import com.zkdlu.oop.domain.shop.Shop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -94,5 +95,18 @@ class OrderServiceTest {
 
         assertThat(givenOrder.getState()).isEqualTo(OrderState.COMPLETE);
         assertThat(givenDelivery.getState()).isEqualTo(DeliveryState.DELIVERED);
+    }
+
+    @Test
+    void 주문이_완료되면_상점에_수수료를_지불한다() {
+        spyOrderRepository.findById_returnValue = Optional.of(anOrder().build());
+        spyDeliveryRepository.findById_returnValue = Optional.of(aDelivery().build());
+
+        Shop shop = aShop().commission(0).commissionRate(0.1).build();
+        spyShopRepository.findById_returnValue = Optional.of(shop);
+
+        orderService.completeOrder(1L);
+
+        assertThat(shop.getCommission()).isEqualTo(1300);
     }
 }
