@@ -30,7 +30,7 @@ public class Shop {
         return minOrderAmount <= totalPrice;
     }
 
-    public void billCommissionFee(int calculateTotalPrice) {
-        commission += commissionRate * calculateTotalPrice;
+    public int calculdateCommissionFee(int calculateTotalPrice) {
+        return (int)(commissionRate * calculateTotalPrice);
     }
 }
