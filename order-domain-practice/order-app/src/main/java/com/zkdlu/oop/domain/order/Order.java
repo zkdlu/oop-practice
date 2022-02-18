@@ -59,4 +59,8 @@ public class Order {
                 .mapToInt(OrderLineItem::calculateTotalPrice)
                 .sum();
     }
+
+    public void payed() {
+        this.state = OrderState.PAYED;
+    }
 }
