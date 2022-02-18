@@ -1,6 +1,5 @@
 package com.zkdlu.oop.order.application;
 
-import com.zkdlu.oop.delivery.Delivery;
 import com.zkdlu.oop.delivery.Delivery.DeliveryState;
 import com.zkdlu.oop.delivery.domain.SpyDeliveryRepository;
 import com.zkdlu.oop.order.application.Cart.CartLineItem;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static com.zkdlu.oop.Fixtures.aDelivery;
 import static com.zkdlu.oop.Fixtures.aMenu;
 import static com.zkdlu.oop.Fixtures.aShop;
 import static com.zkdlu.oop.Fixtures.anOrder;
@@ -44,7 +42,7 @@ class OrderServiceTest {
 
         OrderMapper orderMapper = new OrderMapper(spyShopRepository, spyMenuRepository);
 
-        orderService = new OrderService(orderMapper, spyOrderRepository, spyShopRepository, spyDeliveryRepository, orderValidator);
+        orderService = new OrderService(orderMapper, spyOrderRepository, orderValidator);
 
         spyShopRepository.findById_returnValue = Optional.of(aShop().build());
         spyMenuRepository.findById_returnValue = Optional.of(aMenu().build());
@@ -88,12 +86,8 @@ class OrderServiceTest {
         Order givenOrder = anOrder().build();
         spyOrderRepository.findById_returnValue = Optional.of(givenOrder);
 
-        Delivery givenDelivery = aDelivery().build();
-        spyDeliveryRepository.findById_returnValue = Optional.of(givenDelivery);
-
         orderService.completeOrder(1L);
 
         assertThat(givenOrder.getState()).isEqualTo(OrderState.COMPLETE);
-        assertThat(givenDelivery.getState()).isEqualTo(DeliveryState.DELIVERED);
     }
 }

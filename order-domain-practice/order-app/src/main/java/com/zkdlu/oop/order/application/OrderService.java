@@ -1,11 +1,8 @@
 package com.zkdlu.oop.order.application;
 
-import com.zkdlu.oop.delivery.Delivery;
-import com.zkdlu.oop.delivery.DeliveryRepository;
 import com.zkdlu.oop.order.domain.Order;
 import com.zkdlu.oop.order.domain.OrderRepository;
 import com.zkdlu.oop.order.domain.OrderValidator;
-import com.zkdlu.oop.shop.domain.ShopRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,15 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
-    private final ShopRepository shopRepository;
-    private final DeliveryRepository deliveryRepository;
     private final OrderValidator orderValidator;
 
-    public OrderService(OrderMapper orderMapper, OrderRepository orderRepository, ShopRepository shopRepository, DeliveryRepository deliveryRepository, OrderValidator orderValidator) {
+    public OrderService(OrderMapper orderMapper, OrderRepository orderRepository, OrderValidator orderValidator) {
         this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
-        this.shopRepository = shopRepository;
-        this.deliveryRepository = deliveryRepository;
         this.orderValidator = orderValidator;
     }
 
@@ -36,17 +29,11 @@ public class OrderService {
     public void payOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
         order.payed();
-
-        Delivery delivery = Delivery.started(order);
-        deliveryRepository.save(delivery);
     }
 
     @Transactional
     public void completeOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
         order.complete();
-
-        Delivery delivery = deliveryRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);;
-        delivery.complete();
     }
 }

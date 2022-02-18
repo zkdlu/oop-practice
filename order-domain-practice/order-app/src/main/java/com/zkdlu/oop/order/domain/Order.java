@@ -43,6 +43,8 @@ public class Order extends AbstractAggregateRoot<Order> {
 
     public void payed() {
         this.state = OrderState.PAYED;
+
+        registerEvent(new OrderPayedEvent(this));
     }
 
     public void complete() {
