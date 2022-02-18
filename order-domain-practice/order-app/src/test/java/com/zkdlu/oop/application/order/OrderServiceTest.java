@@ -5,6 +5,7 @@ import com.zkdlu.oop.application.order.Cart.CartOption;
 import com.zkdlu.oop.application.order.Cart.CartOptionGroup;
 import com.zkdlu.oop.application.shop.SpyMenuRepository;
 import com.zkdlu.oop.application.shop.SpyShopRepository;
+import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static com.zkdlu.oop.Fixtures.aMenu;
 import static com.zkdlu.oop.Fixtures.aShop;
+import static com.zkdlu.oop.Fixtures.anOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class OrderServiceTest {
@@ -47,5 +49,15 @@ class OrderServiceTest {
         orderService.placeOrder(cart);
 
         assertThat(spyOrderRepository.save_argumentOrder.getState()).isEqualTo(OrderState.ORDERED);
+    }
+
+    @Test
+    void 결제시_결제완료상태가_된다() {
+        Order givenOrder = anOrder().build();
+        spyOrderRepository.findById_returnValue = Optional.of(givenOrder);
+
+        orderService.payOrder(1L);
+
+        assertThat(givenOrder.getState()).isEqualTo(OrderState.PAYED);
     }
 }

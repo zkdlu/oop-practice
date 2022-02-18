@@ -26,6 +26,5 @@ public class OrderService {
     public void payOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
         order.payed();
-
     }
 }
