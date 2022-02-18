@@ -5,7 +5,6 @@ import com.zkdlu.oop.domain.delivery.DeliveryRepository;
 import com.zkdlu.oop.domain.order.Order;
 import com.zkdlu.oop.domain.order.OrderRepository;
 import com.zkdlu.oop.domain.order.OrderValidator;
-import com.zkdlu.oop.domain.shop.Shop;
 import com.zkdlu.oop.domain.shop.ShopRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,9 +45,6 @@ public class OrderService {
     public void completeOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
         order.complete();
-
-        Shop shop = shopRepository.findById(order.getShop()).orElseThrow(IllegalArgumentException::new);;
-        shop.billCommissionFee(order.calculateTotalPrice());
 
         Delivery delivery = deliveryRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);;
         delivery.complete();

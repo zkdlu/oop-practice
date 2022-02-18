@@ -2,12 +2,13 @@ package com.zkdlu.oop.domain.order;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Order {
+public class Order extends AbstractAggregateRoot<Order> {
     private Long id;
     private Long shop;
     private List<OrderLineItem> orderLineItems = new ArrayList<>();
@@ -46,5 +47,7 @@ public class Order {
 
     public void complete() {
         this.state = OrderState.COMPLETE;
+
+        registerEvent(new OrderDeliveredEvent(this));
     }
 }
