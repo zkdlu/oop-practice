@@ -29,4 +29,8 @@ public class Shop {
     public boolean isValidOrderAmount(int totalPrice) {
         return minOrderAmount <= totalPrice;
     }
+
+    public void billCommissionFee(int calculateTotalPrice) {
+        commission += commissionRate * calculateTotalPrice;
+    }
 }

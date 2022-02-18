@@ -42,7 +42,7 @@ class OrderServiceTest {
 
         OrderMapper orderMapper = new OrderMapper(spyShopRepository, spyMenuRepository);
 
-        orderService = new OrderService(orderMapper, spyOrderRepository, spyDeliveryRepository, orderValidator);
+        orderService = new OrderService(orderMapper, spyOrderRepository, spyShopRepository, spyDeliveryRepository, orderValidator);
 
         spyShopRepository.findById_returnValue = Optional.of(aShop().build());
         spyMenuRepository.findById_returnValue = Optional.of(aMenu().build());
