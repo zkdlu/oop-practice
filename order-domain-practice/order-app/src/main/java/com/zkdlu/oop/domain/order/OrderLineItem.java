@@ -15,6 +15,10 @@ public class OrderLineItem {
     private Menu menu;
     private List<OrderOptionGroup> orderOptionGroups = new ArrayList<>();
 
+    public OrderLineItem(String name, int count, Menu menu, List<OrderOptionGroup> orderOptionGroups) {
+        this(null, name, count, menu, orderOptionGroups);
+    }
+
     @Builder
     public OrderLineItem(Long id, String name, int count, Menu menu, List<OrderOptionGroup> orderOptionGroups) {
         this.id = id;

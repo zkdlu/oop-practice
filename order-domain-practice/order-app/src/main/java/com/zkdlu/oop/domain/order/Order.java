@@ -22,6 +22,10 @@ public class Order {
         this.state = state;
     }
 
+    public Order(Shop shop, List<OrderLineItem> orderLineItems) {
+        this(null, shop, orderLineItems, OrderState.NONE);
+    }
+
     public void place() {
         validate();
         ordered();

@@ -21,6 +21,10 @@ public class OrderOptionGroup {
         this.orderOptions.addAll(orderOptions);
     }
 
+    public OrderOptionGroup(String name, List<OrderOption> orderOptions) {
+        this(null, name, orderOptions);
+    }
+
     public int calculatePrice() {
         return orderOptions.stream()
                 .mapToInt(OrderOption::getPrice)
