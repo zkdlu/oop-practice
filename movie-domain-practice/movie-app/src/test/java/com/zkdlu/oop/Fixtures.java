@@ -1,5 +1,7 @@
 package com.zkdlu.oop;
 
+import com.zkdlu.oop.domain.DiscountPolicy;
+import com.zkdlu.oop.domain.DiscountPolicy.DiscountPolicyBuilder;
 import com.zkdlu.oop.domain.Movie;
 import com.zkdlu.oop.domain.Movie.MovieBuilder;
 import com.zkdlu.oop.domain.Showing;
@@ -10,10 +12,16 @@ import java.time.LocalTime;
 
 public class Fixtures {
 
+    public static DiscountPolicyBuilder aDiscountPolicy() {
+        return DiscountPolicy.builder()
+                .discountAmount(1000);
+    }
+
     public static MovieBuilder aMovie() {
         return Movie.builder()
                 .title("영화")
-                .price(8000);
+                .price(8000)
+                .discountPolicy(aDiscountPolicy().build());
     }
 
     public static ShowingBuilder aShowing() {

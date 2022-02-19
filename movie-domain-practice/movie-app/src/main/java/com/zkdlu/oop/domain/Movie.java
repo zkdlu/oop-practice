@@ -10,11 +10,16 @@ public class Movie {
     private int price;
     private DiscountPolicy discountPolicy;
 
+
     @Builder
     public Movie(Long id, String title, int price, DiscountPolicy discountPolicy) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.discountPolicy = discountPolicy;
+    }
+
+    public int calculatePrice(Showing showing) {
+        return price - discountPolicy.calculateDiscountFee(showing);
     }
 }

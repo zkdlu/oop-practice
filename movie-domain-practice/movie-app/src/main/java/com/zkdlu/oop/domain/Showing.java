@@ -27,6 +27,6 @@ public class Showing {
                 runningTime,
                 count,
                 movie.getPrice() * count,
-                0);
+                movie.calculatePrice(this) * count);
     }
 }

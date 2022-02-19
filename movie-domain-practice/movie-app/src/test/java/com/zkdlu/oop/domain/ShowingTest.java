@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import static com.zkdlu.oop.Fixtures.aDiscountPolicy;
 import static com.zkdlu.oop.Fixtures.aMovie;
 import static com.zkdlu.oop.Fixtures.aShowing;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,5 +27,19 @@ class ShowingTest {
         assertThat(reservation.getRunningTime()).isEqualTo(LocalTime.of(2, 30));
         assertThat(reservation.getRunningTime()).isEqualTo(LocalTime.of(2, 30));
         assertThat(reservation.getTotalAmount()).isEqualTo(20000);
+    }
+
+    @Test
+    void 예약시_고정할인이_적용된다() {
+        Showing showing = aShowing()
+                .movie(aMovie()
+                        .price(10000)
+                        .discountPolicy(aDiscountPolicy().discountAmount(800).build())
+                        .build())
+                .build();
+
+        Reservation reservation = showing.reserve(2);
+
+        assertThat(reservation.getPaymentAmount()).isEqualTo(18400);
     }
 }
