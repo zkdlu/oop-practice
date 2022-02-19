@@ -1,4 +1,4 @@
-package com.zkdlu.oop.domain;
+package com.zkdlu.oop.domain.movie;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -28,5 +28,9 @@ public class Showing {
                 count,
                 movie.getPrice() * count,
                 movie.calculatePrice(this) * count);
+    }
+
+    public int getFee() {
+        return movie.getPrice();
     }
 }

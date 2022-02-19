@@ -1,4 +1,4 @@
-package com.zkdlu.oop.domain;
+package com.zkdlu.oop.domain.movie;
 
 import lombok.Getter;
 

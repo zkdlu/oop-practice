@@ -1,27 +1,21 @@
 package com.zkdlu.oop;
 
-import com.zkdlu.oop.domain.DiscountPolicy;
-import com.zkdlu.oop.domain.DiscountPolicy.DiscountPolicyBuilder;
-import com.zkdlu.oop.domain.Movie;
-import com.zkdlu.oop.domain.Movie.MovieBuilder;
-import com.zkdlu.oop.domain.Showing;
-import com.zkdlu.oop.domain.Showing.ShowingBuilder;
+import com.zkdlu.oop.domain.movie.Movie;
+import com.zkdlu.oop.domain.movie.Movie.MovieBuilder;
+import com.zkdlu.oop.domain.movie.NonDiscountPolicy;
+import com.zkdlu.oop.domain.movie.Showing;
+import com.zkdlu.oop.domain.movie.Showing.ShowingBuilder;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Fixtures {
 
-    public static DiscountPolicyBuilder aDiscountPolicy() {
-        return DiscountPolicy.builder()
-                .discountAmount(1000);
-    }
-
     public static MovieBuilder aMovie() {
         return Movie.builder()
                 .title("영화")
                 .price(8000)
-                .discountPolicy(aDiscountPolicy().build());
+                .discountPolicy(new NonDiscountPolicy());
     }
 
     public static ShowingBuilder aShowing() {

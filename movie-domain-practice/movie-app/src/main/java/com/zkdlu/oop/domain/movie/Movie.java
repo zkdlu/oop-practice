@@ -1,4 +1,4 @@
-package com.zkdlu.oop.domain;
+package com.zkdlu.oop.domain.movie;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,6 @@ public class Movie {
     private String title;
     private int price;
     private DiscountPolicy discountPolicy;
-
 
     @Builder
     public Movie(Long id, String title, int price, DiscountPolicy discountPolicy) {
