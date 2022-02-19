@@ -1,3 +1,4 @@
 rootProject.name = 'oop'
 
 include 'order-domain-practice:order-app'
+include 'movie-domain-practice:movie-app'
