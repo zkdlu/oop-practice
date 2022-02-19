@@ -8,7 +8,7 @@ public class RateDiscountPolicy extends DiscountPolicy {
     }
 
     @Override
-    protected int getDiscountFee(Showing showing) {
-        return (int)(showing.getFee() * discountRate);
+    protected int getDiscountFee(Movie movie) {
+        return (int)(movie.getPrice() * discountRate);
     }
 }

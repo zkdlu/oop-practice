@@ -27,10 +27,6 @@ public class Showing {
                 runningTime,
                 count,
                 movie.getPrice() * count,
-                movie.calculatePrice(this) * count);
-    }
-
-    public int getFee() {
-        return movie.getPrice();
+                movie.getDiscountedPrice() * count);
     }
 }

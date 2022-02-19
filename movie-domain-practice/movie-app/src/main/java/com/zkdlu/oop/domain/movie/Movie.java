@@ -18,7 +18,7 @@ public class Movie {
         this.discountPolicy = discountPolicy;
     }
 
-    public int calculatePrice(Showing showing) {
-        return price - discountPolicy.calculateDiscountFee(showing);
+    public int getDiscountedPrice() {
+        return price - discountPolicy.calculateDiscountFee(this);
     }
 }
